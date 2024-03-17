@@ -48,7 +48,7 @@ def valid(next, position, map):
         return False
     if map[next[0]][next[1]][0] == 'W':
         return False
-    if next != position and abs(map[next[0]][next[1]][1] - map[position[0]][position[1]][1]) > 1:
+    if next != position and abs(int(map[next[0]][next[1]][1]) - int(map[position[0]][position[1]][1])) > 1:
         return False
     return True
 
