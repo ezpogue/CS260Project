@@ -39,7 +39,7 @@ def find_houses(map):
     return coords
 
 def distance(source, destination):
-    return ((source[0] - destination[0])**2 + (source[1] - destination[1])**2)**.5
+    return (abs(source[0] - destination[0]) + abs(source[1] - destination[1]))
 
 def valid(next, position, map):
     if not (0 <= next[0] < len(map)):
@@ -48,16 +48,19 @@ def valid(next, position, map):
         return False
     if map[next[0]][next[1]][0] == 'W':
         return False
-    if map[next[0]][next[1]][1] != map[position[0]][position[1]][1]:
+    if next != position and abs(map[next[0]][next[1]][1] - map[position[0]][position[1]][1]) > 1:
         return False
     return True
 
-def cost(source, destination):
+def cost(source, destination, map, road):
+    if road[destination[0]][destination[1]] == 1:
+        return 0
+    if map[source[0]][source[1]][1] != map[destination[0]][destination[1]][1]:
+        return 2
     return 1
 
-def rand_nn_st(map):
+def ARINS_st(map):
     houses = find_houses(map)
-    print(houses)
     visited = []
     visited.append(random.choice(houses))
 
@@ -66,7 +69,7 @@ def rand_nn_st(map):
             road.append([0] * len(map[0]))
     while len(visited) != len(houses):
         source = random.choice(visited)
-        mindist = len(map) * 2
+        mindist = len(map) * len(map[0])
         for house in houses:
             if house == source or house in visited:
                 continue
@@ -89,7 +92,7 @@ def rand_nn_st(map):
             for move in moves:
                 next = (move[0] + node[0], move[1] + node[1])
                 if next not in closed and valid(next, node, map):
-                    g = val.g + cost(node, next)
+                    g = val.g + cost(node, next, map, road)
                     f = g + distance(next, destination) 
                     open.put(next, Value(f, g))
                     backtrack[next[0]][next[1]] = node
@@ -108,10 +111,231 @@ def rand_nn_st(map):
 
     return road
         
+
+def SPATH_st(map):
+    houses = find_houses(map)
+    visited = []
+    source = random.choice(houses)
+    visited.append(source)
+
+    road = []
+    for row in range(len(map)):
+            road.append([0] * len(map[0]))
+    for destination in houses:
+        if destination == source:
+            continue
+        backtrack = []
+        for row in range(len(map)):
+            backtrack.append([(0,0)] * len(map[0]))
+        closed = set()
+        open = PriorityQueue(order=min, f=lambda v: v.f)
+        open.put(source, Value(distance(source, destination), 0))
+        moves = [(0,1), (0,-1), (1,0), (-1,0)]
+        while len(open) > 0:
+            node, val = open.pop()
+            closed.add(node)
+            if node == destination:
+                break
+            for move in moves:
+                next = (move[0] + node[0], move[1] + node[1])
+                if next not in closed and valid(next, node, map):
+                    g = val.g + cost(node, next, map, road)
+                    f = g + distance(next, destination) 
+                    open.put(next, Value(f, g))
+                    backtrack[next[0]][next[1]] = node
+        
+        path = [destination]
+        curr = destination
+        while curr != source:
+            curr = backtrack[curr[0]][curr[1]]
+            path = [curr] + path
+
+        for tile in path:
+            road[tile[0]][tile[1]] = 1
+        print(road)
+
+        visited.append(destination)
+
+    return road
+
+
+def find(x, parent):
+    if parent[x[0]][x[1]] != x:
+        return find(parent[x[0]][x[1]], parent)
+    return x
+
+def union(x, y, parent):
+    y_par = find(y, parent)
+    parent[y_par[0]][y_par[1]] = find(x, parent)
+    return parent
+
+def fullyconnected(houses, parent):
+    flag = True
+    p = find(houses[0], parent)
+    for house in houses:
+        flag = flag and (p == find(house, parent))
+    return flag
+
+def f_v(v,components, map):
+    closestpoints = []
+    for component in components:
+        mindist = len(map) * len(map[0])
+        for u in component:
+            dist = distance(v, u)
+            if dist < mindist:
+                mindist = dist
+                closest = u
+        closestpoints.append(closest)
+
+    minavg = len(map) * len(map[0])
+    for t in range(len(components)):
+        sum = 0
+        for i in range(t+1):
+            sum += distance(v, closestpoints[i])
+        sum = sum/(t+1)
+        if sum < minavg:
+            minavg = sum
+    
+    return minavg, closestpoints
+
+def heuristic(test_v, components, map):
+    min = len(map) * len(map[0])
+    for v in test_v:
+        f, closestpoints = f_v(v, components, map)
+        if f < min:
+            min = f
+            best = v
+    return best, closestpoints
+
+
+def HEUM_st(map):
+    houses = find_houses(map)
+    components = []
+    for house in houses:
+        components.append([house])
+
+    parent = []
+    for row in range(len(map)):
+        parent.append([])
+        for col in range(len(map[0])):
+            parent[row].append((row,col))
+
+    road = []
+    for row in range(len(map)):
+            road.append([0] * len(map[0]))
+
+    while not fullyconnected(houses, parent):
+        test_v = []
+        while len(test_v) < 10:
+            v = (random.randint(0, len(map)-1), random.randint(0, len(map[0])-1))
+            if valid(v, v, map):
+                test_v.append(v)
+        v, closestpoints = heuristic(test_v, components, map)
+        mindist = len(map) * len(map[0])
+        for i in range(2):
+            mindist = len(map) * len(map[0])
+            for j in range(len(closestpoints)):
+                dist = distance(v, closestpoints[j])
+                if dist < mindist:
+                    if i == 0:
+                        mindist = dist
+                        point1 = closestpoints[j]
+                        index1 = j
+                    elif j != index1:
+                        mindist = dist
+                        point2 = closestpoints[j]
+                        index2 = j
+        backtrack = []
+        for row in range(len(map)):
+            backtrack.append([(0,0)] * len(map[0]))
+        closed = set()
+        open = PriorityQueue(order=min, f=lambda v: v.f)
+        open.put(point1, Value(distance(point1, v), 0))
+        moves = [(0,1), (0,-1), (1,0), (-1,0)]
+        while len(open) > 0:
+            node, val = open.pop()
+            closed.add(node)
+            if node == v:
+                break
+            for move in moves:
+                next = (move[0] + node[0], move[1] + node[1])
+                if next not in closed and valid(next, node, map):
+                    g = val.g + cost(node, next, map, road)
+                    f = g + distance(next, v) 
+                    open.put(next, Value(f, g))
+                    backtrack[next[0]][next[1]] = node
+        
+        path = [v]
+        curr = v
+        while curr != point1:
+            curr = backtrack[curr[0]][curr[1]]
+            path = [curr] + path
+
+        for tile in path:
+            parent = union(point1, tile, parent)
+            if tile not in components[index1]:
+                components[index1].append(tile)
+            road[tile[0]][tile[1]] = 1
+
+        
+        backtrack = []
+        for row in range(len(map)):
+            backtrack.append([(0,0)] * len(map[0]))
+        closed = set()
+        open = PriorityQueue(order=min, f=lambda v: v.f)
+        open.put(point2, Value(distance(point2, v), 0))
+        moves = [(0,1), (0,-1), (1,0), (-1,0)]
+        while len(open) > 0:
+            node, val = open.pop()
+            closed.add(node)
+            if node == v:
+                break
+            for move in moves:
+                next = (move[0] + node[0], move[1] + node[1])
+                if next not in closed and valid(next, node, map):
+                    g = val.g + cost(node, next, map, road)
+                    f = g + distance(next, v) 
+                    open.put(next, Value(f, g))
+                    backtrack[next[0]][next[1]] = node
+        
+        path = [v]
+        curr = v
+        while curr != point2:
+            curr = backtrack[curr[0]][curr[1]]
+            path = [curr] + path
+
+        for tile in path:
+            parent = union(point2, tile, parent)
+            if tile not in components[index1] and tile not in components[index2]:
+                components[index2].append(tile)
+            road[tile[0]][tile[1]] = 1
+
+        parent = union(point1, point2, parent)
+        components[index1].extend(components[index2])
+        del components[index2]
+
+    return road
+
+        
+
+        
+                
+                    
+
+
+        
+
+
+
+    
 map = parse_map('largertestmap.txt')
-road = rand_nn_st(map)
-print(map)
+road = HEUM_st(map)
 print(np.matrix(road))
+
+'''
+road = SPATH_st(map)
+print(map)
+print(np.matrix(road))'''
 
         
     
