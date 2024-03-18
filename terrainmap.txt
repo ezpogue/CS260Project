@@ -1,0 +1,11 @@
+10 10
+O,1 O,1 O,1 O,1 O,2 O,2 O,1 O,1 O,1 O,1
+O,1 O,1 H,1 O,1 O,2 O,2 O,1 O,1 H,1 O,1
+O,1 O,1 O,1 O,1 O,2 O,2 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,2 O,2 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,2 O,2 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,2 O,2 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 H,1 O,2 O,2 H,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,2 O,2 O,1 O,1 O,1 O,1

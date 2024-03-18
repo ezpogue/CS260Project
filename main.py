@@ -2,6 +2,7 @@ import random
 import sys
 import numpy as np
 from utils import *
+import time
 
 
 def parse_map(filename):
@@ -105,7 +106,6 @@ def ARINS_st(map):
 
         for tile in path:
             road[tile[0]][tile[1]] = 1
-        print(road)
 
         visited.append(destination)
 
@@ -152,7 +152,6 @@ def SPATH_st(map):
 
         for tile in path:
             road[tile[0]][tile[1]] = 1
-        print(road)
 
         visited.append(destination)
 
@@ -226,9 +225,9 @@ def HEUM_st(map):
 
     while not fullyconnected(houses, parent):
         test_v = []
-        while len(test_v) < 10:
+        while len(test_v) < 2*len(map):
             v = (random.randint(0, len(map)-1), random.randint(0, len(map[0])-1))
-            if valid(v, v, map):
+            if valid(v, v, map) and road[v[0]][v[1]] != 1:
                 test_v.append(v)
         v, closestpoints = heuristic(test_v, components, map)
         mindist = len(map) * len(map[0])
@@ -316,22 +315,41 @@ def HEUM_st(map):
 
     return road
 
-        
-
-        
-                
-                    
-
-
+def eval(map, method, iterations=250):
+    lengths = []
+    times = []
+    minlength = len(map) * len(map[0])
+    for i in range(iterations):
+        start = time.time()
+        road = method(map)
+        times.append(time.time()-start)
+        sum = 0
+        for row in road:
+            for item in row:
+                if item == 1:
+                    sum += 1
+        lengths.append(sum)
+        if sum < minlength:
+            minlength = sum
+    avgoptimalitygap = 0
+    avglength = 0
+    avgtime = 0
+    for i in lengths:
+        avgoptimalitygap += i-minlength
+        avglength += i
+    for i in times:
+        avgtime += i
+    avgoptimalitygap /= len(lengths)
+    avglength /= len(lengths)
+    avgtime /= len(times)
+    return avgoptimalitygap, avglength, avgtime
         
 
 
 
     
-map = parse_map('largertestmap.txt')
-road = HEUM_st(map)
-print(np.matrix(road))
-
+map = parse_map('giantmap.txt')
+print(eval(map, HEUM_st))
 '''
 road = SPATH_st(map)
 print(map)

@@ -1,0 +1,21 @@
+20 20 
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
+O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1 O,1
